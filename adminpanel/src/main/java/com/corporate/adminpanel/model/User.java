@@ -24,9 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private boolean active = true; // Статус пользователя (активен / заблокирован)
+    private boolean active = true;
 
-    // Связь многие-ко-многим с ролями (у юзера может быть несколько ролей)
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

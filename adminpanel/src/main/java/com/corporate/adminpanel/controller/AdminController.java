@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasRole('ADMIN')") // Дополнительная защита всего контроллера на уровне ролей
+@PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final UserService userService; // Зависимость внедряется через конструктор (SOLID)
+    private final UserService userService;
 
-    // Получить список пользователей для отображения в админке
+
     @GetMapping("/users")
     public String getUsersPanel(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "admin/users"; // Имя HTML-файла (Thymeleaf шаблона)
+        return "admin/users";
     }
 
-    // Изменить статус пользователя (активировать / заблокировать)
+
     @PostMapping("/users/{id}/status")
     public String toggleUserStatus(@PathVariable Long id) {
         userService.toggleUserStatus(id);
-        return "redirect:/admin/users"; // Возвращаем обратно на страницу админки
+        return "redirect:/admin/users";
     }
 }

@@ -29,14 +29,12 @@ public class SecurityConfig {
                         .permitAll()
                 );
 
-        // Для работы H2-консоли (если понадобится зайти в неё)
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
     }
 
-    // Тот самый недостающий бин шифрования паролей:
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

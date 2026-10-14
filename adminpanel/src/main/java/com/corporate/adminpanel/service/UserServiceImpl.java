@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor // Автоматически создает конструктор для final полей (DIP)
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository; // Внедрение репозитория
+    private final UserRepository userRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional // Гарантирует, что транзакция откатится в случае ошибки
+    @Transactional
     public void toggleUserStatus(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Пользователь с ID " + userId + " не найден"));
 
-        // Меняем статус на противоположный (активен <-> заблокирован)
+
         user.setActive(!user.isActive());
         userRepository.save(user);
     }

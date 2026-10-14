@@ -21,7 +21,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Создаем роль ROLE_ADMIN, если её нет
         Role adminRole = roleRepository.findByName("ROLE_ADMIN")
                 .orElseGet(() -> {
                     Role role = new Role();
@@ -29,12 +28,11 @@ public class DataInitializer implements CommandLineRunner {
                     return roleRepository.save(role);
                 });
 
-        // Создаем тестового администратора, если его нет
+
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setUsername("admin");
             admin.setEmail("admin@corporate.com");
-            // Хешируем пароль "admin123"
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setActive(true);
             admin.setRoles(Set.of(adminRole));
