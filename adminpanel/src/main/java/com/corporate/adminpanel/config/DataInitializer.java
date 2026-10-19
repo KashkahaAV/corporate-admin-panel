@@ -21,6 +21,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // 1. Создаем роль ROLE_ADMIN, если её нет
         Role adminRole = roleRepository.findByName("ROLE_ADMIN")
                 .orElseGet(() -> {
                     Role role = new Role();
@@ -28,7 +29,15 @@ public class DataInitializer implements CommandLineRunner {
                     return roleRepository.save(role);
                 });
 
+        // 2. Создаем роль ROLE_USER, если её нет (Критично для регистрации!)
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseGet(() -> {
+                    Role role = new Role();
+                    role.setName("ROLE_USER");
+                    return roleRepository.save(role);
+                });
 
+        // 3. Создаем дефолтного администратора, если его нет
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setUsername("admin");
